@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Usuario{% endblock %}
+
+{% block body %}
+    <h1>Crear un nuevo usuario</h1>
+
+    {{ include('usuarios/_form.html.twig', {'button_label': 'Guardar'}) }}
+
+    <div id="actividad" class="alert"></div>
+
+    <a href="{{ path('index') }}">Regresar al listado</a>
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('.input-number').on('input', function () {
+                this.value = this.value.replace(/[^0-9]/g,'');
+            });
+            $('.email').focusout(function () {
+                var caract = new RegExp(/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/);
+                if (caract.test(this.value) == false){
+                    $(this).val('').focus();
+                    alert("por favor ingrese un correo valido.");
+                }
+            });
+            $("#formUsuario").submit(function(e) {
+                e.preventDefault();
+                var request = $.ajax({
+                  url: "{{ path('nuevo') }}",
+                  method: "POST",
+                  data: $("#formUsuario").serialize(),
+                  dataType: "html"
+                });
+                request.done(function( data ) {
+                    const mensaje=JSON.parse(data);
+                    $( "#actividad" ).html( mensaje.message );
+                });
+                request.fail(function( jqXHR, textStatus ) {
+                    $( "#actividad" ).html( textStatus );
+                });
+            });
+        });
+    </script>
+{% endblock %}

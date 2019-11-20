@@ -1,0 +1,11 @@
+index:
+    path: /
+    controller: App\Controller\UsuariosController::index
+
+nuevo:
+    path: /nuevo
+    controller: App\Controller\UsuariosController::new
+
+edicion:
+    path: /{id}/edicion
+    controller: App\Controller\UsuariosController::edit

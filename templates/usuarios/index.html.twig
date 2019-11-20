@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de Usuarios{% endblock %}
+
+{% block body %}
+    <h1>Listado de Usuarios</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Cedula</th>
+                <th>Correo</th>
+                <th>Telefono</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.nombres }}</td>
+                <td>{{ usuario.apellidos }}</td>
+                <td>{{ usuario.cedula }}</td>
+                <td>{{ usuario.correo }}</td>
+                <td>{{ usuario.telefono }}</td>
+                <td>
+                    <a href="{{ path('edicion', {'id': usuario.id}) }}">Editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Sin registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('nuevo') }}">Crear Nuevo Usuario</a>
+{% endblock %}
